@@ -44,6 +44,10 @@
   border-radius: 3rem;
   outline: none;
 
+  animation-name: growWidth;
+  animation-duration: 0.5s;
+  transform-origin: center right;
+
   &:focus {
     border: 1px solid $c-purple;
   }
