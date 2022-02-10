@@ -1,5 +1,21 @@
 import Swiper from "swiper";
 
+
+const slides = Array.from(document.querySelectorAll(`.slider__item`));
+
+const addSlideAnimation = (activeIndex, isDoubled = false) => {
+  slides.forEach((slide) =>
+    slide.classList.remove(`slider__item--animated`)
+  );
+
+  slides[activeIndex].classList.add(`slider__item--animated`);
+
+  if (isDoubled) {
+    slides[activeIndex + 1].classList.add(`slider__item--animated`);
+  }
+};
+
+
 export default () => {
   let storySlider;
   let sliderContainer = document.getElementById(`story`);
@@ -7,6 +23,8 @@ export default () => {
 
   const setSlider = function () {
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {
+      addSlideAnimation(0);
+
       storySlider = new Swiper(`.js-slider`, {
         pagination: {
           el: `.swiper-pagination`,
@@ -17,6 +35,8 @@ export default () => {
         },
         on: {
           slideChange: () => {
+            addSlideAnimation(storySlider.activeIndex);
+
             if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
               sliderContainer.style.backgroundImage = `url("img/slide1.jpg"), linear-gradient(180deg, rgba(83, 65, 118, 0) 0%, #523E75 16.85%)`;
             } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
@@ -35,6 +55,8 @@ export default () => {
         observeParents: true
       });
     } else {
+      addSlideAnimation(0, true);
+
       storySlider = new Swiper(`.js-slider`, {
         slidesPerView: 2,
         slidesPerGroup: 2,
@@ -51,6 +73,8 @@ export default () => {
         },
         on: {
           slideChange: () => {
+            addSlideAnimation(storySlider.activeIndex, true);
+
             if (storySlider.activeIndex === 0) {
               sliderContainer.style.backgroundImage = `url("img/slide1.jpg")`;
             } else if (storySlider.activeIndex === 2) {
